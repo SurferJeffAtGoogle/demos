@@ -22,12 +22,8 @@ namespace translate
         static void Main(string[] args)
         {
             var client = TranslationClient.Create();
-            foreach (var language in client.ListLanguages("en"))
-            {
-                Console.WriteLine($"{language.Code}: {language.Name}");
-            }
-            var result = client.TranslateText("Hello world.", "ms", "en");
-            Console.WriteLine(result.TranslatedText);
+            var result = client.TranslateText("Hello world.", "ru", "en");
+            JsonDumper.Dump(result);
         }
     }
 }

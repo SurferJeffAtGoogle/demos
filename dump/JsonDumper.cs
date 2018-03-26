@@ -24,6 +24,8 @@ using Newtonsoft.Json.Converters;
 /// </summary>
 class ProtoMessageConverter : JsonConverter
 {
+    Google.Protobuf.JsonFormatter _formatter = new Google.Protobuf.JsonFormatter(
+        new JsonFormatter.Settings(true));
     public override bool CanConvert(System.Type objectType)
     {
         return typeof(Google.Protobuf.IMessage)
@@ -50,8 +52,7 @@ class ProtoMessageConverter : JsonConverter
     public override void WriteJson(JsonWriter writer, object value,
         JsonSerializer serializer)
     {
-        writer.WriteRawValue(Google.Protobuf.JsonFormatter.Default
-            .Format((IMessage)value));
+        writer.WriteRawValue(_formatter.Format((IMessage)value));
     }
 }
 
