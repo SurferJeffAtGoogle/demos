@@ -23,8 +23,8 @@ namespace image
         static void Main(string[] args)
         {
             var client = ImageAnnotatorClient.Create();
-            var results = client.DetectSafeSearch(
-                Image.FromFile(@"C:\users\rennie\Pictures\sorethroat.jpg"));
+            var results = client.DetectLabels(
+                Image.FromFile(@"C:\users\rennie\Pictures\nosheep.jpg"));
             JsonDumper.Dump(results);
         }
     }
