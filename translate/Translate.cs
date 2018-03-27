@@ -22,7 +22,7 @@ namespace translate
         static void Main(string[] args)
         {
             var client = TranslationClient.Create();
-            var result = client.TranslateText("Hello world.", "ru", "en");
+            var result = client.TranslateText("Hello world.", "ru");
             JsonDumper.Dump(result);
         }
     }
