@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Google.Cloud.Diagnostics.AspNetCore;
 
 namespace mvc
 {
@@ -21,12 +23,25 @@ namespace mvc
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddGoogleTrace(options =>
+            {
+                options.ProjectId = "surferjeff-dpe";
+            });
+            services.AddGoogleExceptionLogging(options =>
+            {
+                options.ProjectId = "surferjeff-dpe";
+                options.Version = "0.0";
+                options.ServiceName = "mvc";
+            });
             services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env,
+            ILoggerFactory loggerFactory)
         {
+            app.UseGoogleTrace();
+            loggerFactory.AddGoogle("surferjeff-dpe");
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -34,6 +49,7 @@ namespace mvc
             else
             {
                 app.UseExceptionHandler("/Home/Error");
+                app.UseGoogleExceptionLogging();
             }
 
             app.UseStaticFiles();
