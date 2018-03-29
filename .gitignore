@@ -14,4 +14,3 @@ PublishProfiles/
 *.xproj.user
 project.lock.json
 .vscode/
-**/wwwroot/lib/
